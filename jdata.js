@@ -7,8 +7,11 @@
 
 var jData = (function(){
 	
-	// { name } => name
-	function extract(data) {
+	/****************************************************************/
+	/*						Private Function						*/
+	/****************************************************************/
+
+	function extract(data) { // { name } => name
 		var parsed = data.match(/^\{ ?(?:row.)?([a-zA-Z0-9\._]+) ?\}([.a-zA-Z()]*)$/);
 		var extracted = {};
 		if (parsed) {
@@ -42,7 +45,27 @@ var jData = (function(){
 		return returnedArray;
 	}
 	
-	var Format = {};
+	
+	
+	
+	/****************************************************************/
+	/*								Format							*/
+	/****************************************************************/
+	
+	var Format = {}
+	Format.uppercase = function(str) {
+		return str.toUpperCase();
+	}
+	Format.lowercase = function(str) {
+		return str.toLowerCase();
+	}
+	
+	
+	
+	
+	/****************************************************************/
+	/*								Core							*/
+	/****************************************************************/
 	
 	var JData = function(template, data) {
 		if (template && typeof(template === "String")) {
@@ -55,7 +78,6 @@ var jData = (function(){
 		
 		this.apply();
 	}
-	
 	
 	JData.prototype.apply = function() {
 		this.formatted = this.template;
