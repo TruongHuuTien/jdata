@@ -4,7 +4,7 @@
 </head>
 <body>
 	<script>
-	var j = new jData("{name}", {name: "Tien"});
+	var j = new jData("je m'appelle {name.first}.uppercase()", {name: {first: "Tien"}});
 	console.log(j, j.toString());
 	</script>
 </body>
