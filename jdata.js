@@ -12,30 +12,25 @@ var jData = (function(){
 	/****************************************************************/
 	
 	var Format = {}
+	
 	Format.uppercase = function(str) {
 		return str.toUpperCase();
 	}
+	
 	Format.lowercase = function(str) {
 		return str.toLowerCase();
 	}
 	
 	
 	
-	
+
 	/****************************************************************/
 	/*								Core							*/
 	/****************************************************************/
 	
 	var JData = function(template, data) {
-		if (template && typeof(template === "String")) {
-			this.template = template;
-		}
-		
-		if (data) {
-			this.data = data;
-		}
-		
-		this.apply();
+		if (template) this.template = template;
+		if (data) this.data = data;
 	}
 	
 	JData.prototype.toString = function() {
@@ -46,21 +41,27 @@ var jData = (function(){
 		}
 	}
 	
+	
+	
+	
 	/****************************************************************/
 	/*								Apply							*/
 	/****************************************************************/
 	
-	JData.prototype.apply = function() {
-		this.formatted = this.template;
+	JData.apply = function(template, data) {
+		var jd = new JData(template, data);
+		
+		jd.apply(template);
+		
+		return jd;
+	}
+	
+	JData.prototype.apply = function(template) {
+		this.formatted = template;
 		var data = this.data;
-		var regexp = this.template.match(/\{ ?[^\{\}]+ ?\}[.a-zA-Z()]*/g);
+		var regexp = template.match(/\{ ?[^\{\}]+ ?\}[.a-zA-Z()]*/g);
 		for (var r in regexp) {
 			this.formatted = this.formatted.replace(regexp[r], transform(regexp[r], this.data));
-		}
-		if (this.formatted) {
-			return this.formatted;
-		} else {
-			return "";
 		}
 	}
 	
@@ -125,6 +126,34 @@ var jData = (function(){
 		}
 		return formatArray;
 	}
+	
+	
+	
+	
+	/****************************************************************/
+	/*								Map								*/
+	/****************************************************************/
+	
+	JData.map = function(template, data) {
+		var jd = new JData(template, data);
+		
+		jd.map(template);
+		
+		return jd;
+	}
+	
+	JData.prototype.map = function(template) {
+		for (var t in template) {
+			this.formatted = template;
+			var data = this.data;
+			var regexp = template[t].match(/\{ ?[^\{\}]+ ?\}[.a-zA-Z()]*/g);
+			for (var r in regexp) {
+				this.formatted[t] = this.formatted[t].replace(regexp[r], transform(regexp[r], this.data));
+			}
+		}
+	}
+	
+	
 	
 	return JData;
 })();
