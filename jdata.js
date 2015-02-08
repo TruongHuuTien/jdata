@@ -137,20 +137,32 @@ var jData = (function(){
 	JData.map = function(template, data) {
 		var jd = new JData(template, data);
 		
-		jd.map(template);
+		jd.map(template, data);
 		
 		return jd;
 	}
 	
-	JData.prototype.map = function(template) {
-		for (var t in template) {
+	JData.prototype.map = function(template, data) {
+		var dataLength = data.length;
+		if (dataLength == null) { // data is not an Array
 			this.formatted = template;
-			var data = this.data;
-			var regexp = template[t].match(/\{ ?[^\{\}]+ ?\}[.a-zA-Z()]*/g);
-			for (var r in regexp) {
-				this.formatted[t] = this.formatted[t].replace(regexp[r], transform(regexp[r], this.data));
+			arrayTransform(template, data, this.formatted);
+		} else { // data is an Array, need to iterate
+			this.formatted = new Array();
+			for (var i=0; i<dataLength; i++) {
+				this.formatted[i] = template;
+				arrayTransform(template, data, this.formatted[i]);
 			}
 		}
+	}
+	
+	function arrayTransform(template, data, repository) {
+		for (var t in template) {
+				var regexp = template[t].match(/\{ ?[^\{\}]+ ?\}[.a-zA-Z()]*/g);
+				for (var r in regexp) {
+					repository[t] = repository[t].replace(regexp[r], transform(regexp[r], data));
+				}
+			}
 	}
 	
 	

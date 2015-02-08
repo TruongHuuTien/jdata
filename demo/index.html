@@ -11,10 +11,29 @@
 		fullname: "{name.first}"
 	}, {
 		name: {
-			first: "Tien"
+			first: "John"
 		}
 	});
-	console.log(o, o.formatted.fullname.toString());
+	console.log(o, o.formatted.fullname);
+	
+	var a = jData.map([
+		"the first is {name.first}",
+		"the second is {name.first}",
+	], {
+		name: {
+			first: "John"
+		}
+	});
+	console.log(a, a.formatted[0], a.formatted[1]);
+	
+	var e = jData.map({
+		name: "{name}"
+	}, [
+		{name	: "John"},
+		{name	: "Peter"}
+	]);
+	
+	console.log(e, e.formatted);
 	</script>
 </body>
 </html>
