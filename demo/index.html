@@ -4,8 +4,17 @@
 </head>
 <body>
 	<script>
-	var j = new jData("{name}", {name: "Tien"});
+	var j = new jData.apply("je m'appelle {name.first}.uppercase()", {name: {first: "Tien"}});
 	console.log(j, j.toString());
+	
+	var o = jData.map({
+		fullname: "{name.first}"
+	}, {
+		name: {
+			first: "Tien"
+		}
+	});
+	console.log(o, o.formatted.fullname.toString());
 	</script>
 </body>
 </html>
