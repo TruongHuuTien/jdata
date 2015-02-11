@@ -1,0 +1,50 @@
+<h1>jData</h1>
+
+<h2>String Extend</h2>
+
+<h3>jData.apply</h3>
+
+<p>Simply create an dynamics String. Like printf.</p>
+
+<pre><code>jData.apply("My Name is {name.first}.uppercase()", {name:{first:"John"}})
+</code></pre>
+
+<h2>jData.map</h2>
+
+<h3>Bind an Object.</h3>
+
+<p>If your data is an Object, like an Instance.</p>
+
+<pre><code>var templatedObject = jData.map({
+    firstname   : "{name.first}",
+    lastname    : "{name.last}"
+},{
+    name        : {
+        first   : "John",
+        last    : "Doe"
+    }
+});
+</code></pre>
+
+<h3>Bind an Collection of object.</h3>
+
+<p>If your data is an complex Array. Like a Collection of ressources.</p>
+
+<pre><code>var dataArray = jData.map({
+    firstname   : "{name.first}"
+}, [
+    {
+        name    : {
+            first   : "John"
+        }
+    }, {
+        name    : {
+            first   : "Peter"
+        }
+    },{
+        name    : {
+            first   : "Oliver"
+        }
+    }
+]);
+</code></pre>
