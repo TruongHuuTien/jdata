@@ -146,12 +146,12 @@ var jData = (function(){
 	JData.prototype.map = function(template, data) {
 		var dataLength = data.length;
 		if (dataLength == null) { // data is not an Array
-			this.formatted = template;
+			this.formatted = duplicateObject(template);
 			arrayTransform(template, data, this.formatted);
 		} else { // data is an Array, need to iterate
 			this.formatted = new Array();
 			for (var i=0; i<dataLength; i++) {
-				this.formatted[i] = duplicate(template);
+				this.formatted[i] = duplicateObject(template);
 				arrayTransform(template, data[i], this.formatted[i]);
 			}
 		}
@@ -166,11 +166,19 @@ var jData = (function(){
 			}
 	}
 	
-	function duplicate(object) {
+	
+	
+	
+	
+	/****************************************************************/
+	/*						Object functions						*/
+	/****************************************************************/
+	
+	function duplicateObject(object) { // Recursive function
 		var newObject = new Object();
 		for (var o in object) {
 			if (typeof(object[o]) === "object") {
-				newObject[o] = duplicate(object[o]);
+				newObject[o] = duplicateObject(object[o]);
 			} else {
 				newObject[o] = object[o]
 			}
