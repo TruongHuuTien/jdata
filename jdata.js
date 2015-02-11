@@ -13,6 +13,10 @@ var jData = (function(){
 	
 	var Format = {}
 	
+	
+	/********************************/
+	/*			  String			*/
+	/********************************/
 	Format.uppercase = function(str) {
 		return str.toUpperCase();
 	}
@@ -34,7 +38,7 @@ var jData = (function(){
 	}
 	
 	JData.prototype.toString = function() {
-		if (this.formatted) {
+		if (this.formatted && typeof(this.formatted) != "object") {
 			return this.formatted.toString();
 		} else {
 			return "";
