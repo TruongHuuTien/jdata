@@ -84,6 +84,7 @@ var jData = (function(){
 	function parseTemplateValue(templateValue, data) {
 		var valuePath = templateValue.split(".");
 		for (var i=0; i<valuePath.length; i++) {
+			//console.log(valuePath, valuePath[i], data);
 			data = data[valuePath[i]];
 		}
 		
@@ -150,8 +151,8 @@ var jData = (function(){
 		} else { // data is an Array, need to iterate
 			this.formatted = new Array();
 			for (var i=0; i<dataLength; i++) {
-				this.formatted[i] = template;
-				arrayTransform(template, data, this.formatted[i]);
+				this.formatted[i] = duplicate(template);
+				arrayTransform(template, data[i], this.formatted[i]);
 			}
 		}
 	}
@@ -163,6 +164,18 @@ var jData = (function(){
 					repository[t] = repository[t].replace(regexp[r], transform(regexp[r], data));
 				}
 			}
+	}
+	
+	function duplicate(object) {
+		var newObject = new Object();
+		for (var o in object) {
+			if (typeof(object[o]) === "object") {
+				newObject[o] = duplicate(object[o]);
+			} else {
+				newObject[o] = object[o]
+			}
+		}
+		return newObject;
 	}
 	
 	

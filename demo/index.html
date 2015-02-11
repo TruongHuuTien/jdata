@@ -4,36 +4,52 @@
 </head>
 <body>
 	<script>
-	var j = new jData.apply("je m'appelle {name.first}.uppercase()", {name: {first: "Tien"}});
-	console.log(j, j.toString());
+	// Simple Sample. use Apply directly with a string
+	var simpleSample = jData.apply("My Name is {name.first}.uppercase()", {name:{first:"John"}});
+	console.log(simpleSample.toString());
 	
-	var o = jData.map({
-		fullname: "{name.first}"
-	}, {
-		name: {
-			first: "John"
+	
+	// Most common use. Template is an Object. Use it when Data is an Instance
+	var templatedObject = jData.map({
+		firstname	: "{name.first}",
+		lastname	: "{name.last}"
+	},{
+		name		: {
+			first	: "John",
+			last	: "Doe"
 		}
 	});
-	console.log(o, o.formatted.fullname);
+	console.log(templatedObject.formatted.firstname, templatedObject.formatted.lastname);
 	
-	var a = jData.map([
-		"the first is {name.first}",
-		"the second is {name.first}",
-	], {
-		name: {
-			first: "John"
-		}
-	});
-	console.log(a, a.formatted[0], a.formatted[1]);
 	
-	var e = jData.map({
-		name: "{name}"
+	//S pécial use. Template can be an Array
+	var templatedArray = jData.map([
+		"in the first line: {name.first}",
+		"in the second line: {name.first}"
+	], {name:{first:"John"}});
+	console.log(templatedArray.formatted);
+	
+	
+	// Data is an Array. Common use when data is an Collection.
+	// Usefull with datable or repeated interface.
+	var dataArray = jData.map({
+		firstname	: "{name.first}"
 	}, [
-		{name	: "John"},
-		{name	: "Peter"}
+		{
+			name	: {
+				first	: "John"
+			}
+		}, {
+			name	: {
+				first	: "Peter"
+			}
+		},{
+			name	: {
+				first	: "Oliver"
+			}
+		}
 	]);
-	
-	console.log(e, e.formatted);
+	console.log(dataArray.formatted);
 	</script>
 </body>
 </html>
