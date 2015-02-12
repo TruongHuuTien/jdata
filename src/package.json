@@ -1,0 +1,27 @@
+{
+  "name": "jdata",
+  "version": "0.1.1",
+  "description": "A clean way to consume data",
+  "main": "jdata.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TruongHuuTien/jData.git"
+  },
+  "keywords": [
+    "javascript",
+    "data",
+    "rest",
+    "template",
+    "restful",
+    "map"
+  ],
+  "author": "Truong Huu-Tien",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TruongHuuTien/jData/issues"
+  },
+  "homepage": "https://github.com/TruongHuuTien/jData"
+}
