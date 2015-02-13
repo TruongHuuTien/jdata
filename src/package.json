@@ -13,10 +13,11 @@
   "keywords": [
     "javascript",
     "data",
+    "json",
     "rest",
     "template",
     "restful",
-    "map"
+    "map",
   ],
   "author": "Truong Huu-Tien",
   "license": "ISC",
