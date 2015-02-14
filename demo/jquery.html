@@ -4,8 +4,26 @@
 	<script src="../jquery/jdata.js"></script>
 </head>
 <body>
+	<div id="sample1"></div>
 	<script>
-		jData.appendTo("body", "<p>My Name is {name.first}.uppercase()</p>", {name:{first:"John"}});
+		jData.append("#sample1", "<p>My Name is {name.first}.uppercase()</p>", {name:{first:"John"}});
+	</script>
+	
+	
+	<div id="sample2">
+		<p jdata="name"></p>
+		<input jdata="age" />
+	</div>
+	<script>
+		jData.render("#sample2", {
+			name	: "{ name.first }",
+			age		: "{ age }"
+		}, {
+			name: {
+				first:"John"
+			},
+			age	: "30"
+		});
 	</script>
 </body>
 </html>
