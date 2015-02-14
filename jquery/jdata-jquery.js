@@ -31,5 +31,9 @@ var jData = (function(JData, $){
 		});
 	}
 	
+	$.fn.jdata = function(template, data) {
+		JData.render(this, template, data)
+	}
+	
 	return JData;
 })(jData, jQuery);
