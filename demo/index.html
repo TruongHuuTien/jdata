@@ -1,16 +1,16 @@
 <html>
 <head>
-	<script src="../src/jdata.js"></script>
+	<script src="../core/jdata.js"></script>
 </head>
 <body>
 	<script>
 	// Simple Sample. use Apply directly with a string
-	var simpleSample = jData.apply("My Name is {name.first}.uppercase()", {name:{first:"John"}});
+	var simpleSample = jdata.apply("My Name is {name.first}.uppercase()", {name:{first:"John"}});
 	console.log(simpleSample.toString());
 	
 	
 	// Most common use. Template is an Object. Use it when Data is an Instance
-	var templatedObject = jData.map({
+	var templatedObject = jdata.map({
 		firstname	: "{name.first}",
 		lastname	: "{name.last}"
 	},{
@@ -23,7 +23,7 @@
 	
 	
 	// Spécial use. Template can be an Array
-	var templatedArray = jData.map([
+	var templatedArray = jdata.map([
 		"in the first line: {name.first}",
 		"in the second line: {name.first}"
 	], {name:{first:"John"}});
@@ -32,7 +32,7 @@
 	
 	// Data is an Array. Common use when data is an Collection.
 	// Usefull with datable or repeated interface.
-	var dataArray = jData.map({
+	var dataArray = jdata.map({
 		firstname	: "{name.first}"
 	}, [
 		{

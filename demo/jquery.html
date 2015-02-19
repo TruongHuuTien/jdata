@@ -6,7 +6,7 @@
 <body>
 	<div id="sample1"></div>
 	<script>
-		jData.append("#sample1", "<p>My Name is {name.first}.uppercase()</p>", {name:{first:"John"}});
+		jdata.append("#sample1", "<p>My Name is {name.first}.uppercase()</p>", {name:{first:"John"}});
 	</script>
 	
 	
@@ -15,7 +15,7 @@
 		<input jdata="age" />
 	</div>
 	<script>
-		jData.render("#sample2", {
+		$("#sample2").jdata({
 			name	: "{ name.first }",
 			age		: "{ age }"
 		}, {

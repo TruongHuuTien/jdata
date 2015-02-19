@@ -1,0 +1,42 @@
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<script src="jquery-2.1.3.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script src="../jquery/jdata.js"></script>
+	
+	<style>
+		.viewer-attribute {
+			margin: 0px;
+		}
+	</style>
+	<script>
+		var template = {
+			row	: {
+				attribute	: {}
+			},
+			column	: {
+				firstname	: {
+					value		: "{ name.first }"
+				},
+				lastname	: {
+					value		: "{ name.last }"
+				}
+			}
+		};
+		
+		$(document).ready(function() {
+			$.getJSON('./collection.json', function(data){
+				jdata.datatable('#datatable', template, data);
+			});
+		});
+	</script>
+</head>
+<body>
+	<div class="container-fluid" style="margin: 40px 20px;">
+		<div class="panel panel-default" style="padding: 40px 20px;">
+			<table id="datatable" class="table table-hover table-striped"></table>
+		</div>
+	</div>
+</body>
+</html>
