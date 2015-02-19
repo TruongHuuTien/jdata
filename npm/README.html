@@ -50,38 +50,3 @@
     }
 ]);
 </code></pre>
-
-<h1>use json&rsquo;s template to create your interface</h1>
-
-<h2>Bootstrap datatable</h2>
-
-<pre><code>&lt;html&gt;
-&lt;head&gt;
-    &lt;script&gt;
-        var template = {
-            column  : {
-                firstname   : {
-                    value       : "{ name.first }"
-                },
-                lastname    : {
-                    value       : "{ name.last }"
-                }
-            }
-        };
-
-        $(document).ready(function() {
-            $.getJSON('./collection.json', function(data){
-                jdata.datatable('#datatable', template, data);
-            });
-        });
-    &lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;div class="container-fluid" style="margin: 40px 20px;"&gt;
-        &lt;div class="panel panel-default" style="padding: 40px 20px;"&gt;
-            &lt;table id="datatable" class="table table-hover table-striped"&gt;&lt;/table&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>

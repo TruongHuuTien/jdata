@@ -1,14 +1,14 @@
-# jData
-The best way to consume Data.
+# jdata
+A clean way to consume Data
 
 ## String Extend
 
-### jData.apply
+### jdata.apply
 Simply create an dynamics String. Like printf.
 
     jData.apply("My Name is {name.first}.uppercase()", {name:{first:"John"}})
 
-## jData.map
+## jdata.map
 
 ### Bind an Object.
 If your data is an Object, like an Instance.
