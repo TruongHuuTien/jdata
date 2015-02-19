@@ -43,3 +43,7 @@ If your data is an complex Array. Like a Collection of ressources.
             }
         }
     ]);
+    
+    
+# Client's side
+If you need some json's template in your interface, checkout the [github repository](https://github.com/TruongHuuTien/jdata.git) to see what you can do with jQuery and Bootstrap.
