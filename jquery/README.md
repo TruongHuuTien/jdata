@@ -1,14 +1,14 @@
-# jData
-The best way to consume Data.
+# jdata
+A clean way to consume Data
 
 ## String Extend
 
-### jData.apply
+### jdata.apply
 Simply create an dynamics String. Like printf.
 
     jData.apply("My Name is {name.first}.uppercase()", {name:{first:"John"}})
 
-## jData.map
+## jdata.map
 
 ### Bind an Object.
 If your data is an Object, like an Instance.
@@ -43,3 +43,39 @@ If your data is an complex Array. Like a Collection of ressources.
             }
         }
     ]);
+    
+    
+    
+# use json's template to create your interface
+
+## Bootstrap datatable
+    <html>
+    <head>
+        <script>
+            var template = {
+                column  : {
+                    firstname   : {
+                        value       : "{ name.first }"
+                    },
+                    lastname    : {
+                        value       : "{ name.last }"
+                    }
+                }
+            };
+            
+            $(document).ready(function() {
+                $.getJSON('./collection.json', function(data){
+                    jdata.datatable('#datatable', template, data);
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="container-fluid" style="margin: 40px 20px;">
+            <div class="panel panel-default" style="padding: 40px 20px;">
+                <table id="datatable" class="table table-hover table-striped"></table>
+            </div>
+        </div>
+    </body>
+    </html>
+    
