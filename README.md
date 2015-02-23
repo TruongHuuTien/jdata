@@ -6,14 +6,14 @@ A clean way to consume Data
 ### jdata.apply
 Simply create an dynamics String. Like printf.
 
-    jData.apply("My Name is {name.first}.uppercase()", {name:{first:"John"}})
+    new jData("My Name is {name.first}.uppercase()", {name:{first:"John"}})
 
 ## jdata.map
 
 ### Bind an Object.
 If your data is an Object, like an Instance.
 
-    var templatedObject = jData.map({
+    var templatedObject = new jData({
         firstname	: "{name.first}",
         lastname	: "{name.last}"
     },{
@@ -26,7 +26,7 @@ If your data is an Object, like an Instance.
 ### Bind an Collection of object.
 If your data is an complex Array. Like a Collection of ressources.
 
-    var dataArray = jData.map({
+    var dataArray = new jData({
         firstname	: "{name.first}"
     }, [
         {
@@ -44,8 +44,14 @@ If your data is an complex Array. Like a Collection of ressources.
         }
     ]);
     
-    
-    
+## jdata.watch
+You can notify a jdata change by placing a watcher on it:
+
+    var watcherSample = new jdata("My Name is {name}.uppercase()", {name: "John"}, function(jd) {
+        console.log('watcherSample has changed', jd.get());
+    });
+
+
 # use json's template to create your interface
 
 ## Bootstrap datatable
