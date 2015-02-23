@@ -1,55 +1,58 @@
 <html>
 <head>
-	<script src="../core/jdata.js"></script>
+	<script src="/core/jdata.js"></script>
 </head>
 <body>
 	<script>
-	// Simple Sample. use Apply directly with a string
-	var simpleSample = jdata.apply("My Name is {name.first}.uppercase()", {name:{first:"John"}});
-	console.log(simpleSample.toString());
-	
-	
-	// Most common use. Template is an Object. Use it when Data is an Instance
-	var templatedObject = jdata.map({
-		firstname	: "{name.first}",
-		lastname	: "{name.last}"
-	},{
-		name		: {
-			first	: "John",
-			last	: "Doe"
-		}
-	});
-	console.log(templatedObject.formatted.firstname, templatedObject.formatted.lastname);
-	
-	
-	// Spécial use. Template can be an Array
-	var templatedArray = jdata.map([
-		"in the first line: {name.first}",
-		"in the second line: {name.first}"
-	], {name:{first:"John"}});
-	console.log(templatedArray.formatted);
-	
-	
-	// Data is an Array. Common use when data is an Collection.
-	// Usefull with datable or repeated interface.
-	var dataArray = jdata.map({
-		firstname	: "{name.first}"
-	}, [
-		{
-			name	: {
-				first	: "John"
-			}
-		}, {
-			name	: {
-				first	: "Peter"
-			}
+		// Simple Sample. use Apply directly with a string
+		var simpleSample = new jdata("My Name is {name}.uppercase()", {name:"John"});
+		console.log('simpleSample', simpleSample.toString());
+		
+		// Most common use. Template is an Object. Use it when Data is an Instance
+		var templatedObject = new jdata({
+			firstname	: "{name.first}",
+			lastname	: "{name.last}"
 		},{
-			name	: {
-				first	: "Oliver"
+			name		: {
+				first	: "John",
+				last	: "Doe"
 			}
-		}
-	]);
-	console.log(dataArray.formatted);
+		});
+		console.log('templatedObject', templatedObject.get().firstname, templatedObject.get().lastname);
+		
+		// Spécial use. Template can be an Array
+		var templatedArray = new jdata([
+			"in the first line: {name.first}",
+			"in the second line: {name.first}"
+		], {name:{first:"John"}});
+		console.log('templatedArray', templatedArray.get());
+		
+		// Data is an Array. Common use when data is an Collection.
+		// Usefull with datable or repeated interface.
+		var dataArray = new jdata({
+			firstname	: "{name.first}"
+		}, [
+			{
+				name	: {
+					first	: "John"
+				}
+			}, {
+				name	: {
+					first	: "Peter"
+				}
+			},{
+				name	: {
+					first	: "Oliver"
+				}
+			}
+		]);
+		console.log('dataArray', dataArray.get());
+		
+		//you can add a watcher to know when data is changed
+		var watcherSample = new jdata("My Name is {name}.uppercase()", {name: "John"}, function(jd) {
+			console.log('watcherSample has changed', jd.get());
+		});
+		watcherSample.set({name: "Peter"});	
 	</script>
 </body>
 </html>
