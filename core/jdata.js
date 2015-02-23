@@ -106,7 +106,7 @@ var jdata = (function(){
 	/* uppercase, John => JOHN */
 	function applyFormat(format, data) {
 		for (var i=0; i<format.length; i++) {
-			for (var j=0, f=Format; j<format[i].length; j++) {
+			for (var j=0, f=JData.format; j<format[i].length; j++) {
 				f = f[format[i][j]];
 			}
 			if (f) data = f(data);
@@ -184,20 +184,18 @@ var jdata = (function(){
 	/*								Format							*/
 	/****************************************************************/
 	
-	var Format = {}
-	
+	JData.format = {}
 	
 	/********************************/
 	/*			  String			*/
 	/********************************/
-	Format.uppercase = function(str) {
+	JData.format.uppercase = function(str) {
 		return str.toUpperCase();
 	}
 	
-	Format.lowercase = function(str) {
+	JData.format.lowercase = function(str) {
 		return str.toLowerCase();
 	}
-	
 	
 	
 	
@@ -235,7 +233,7 @@ var jdata = (function(){
 		}
 		return newObject;
 	}
-
+	
 
 
 	
