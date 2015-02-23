@@ -1,40 +1,53 @@
 /********************************************************************************************/
 /*																							*/
-/*										jData - Core										*/
-/*											 0.2											*/
+/*										jdata - Core										*/
+/*											 1.0											*/
 /*																							*/
 /********************************************************************************************/
 
 var jdata = (function(){
 	
-	/****************************************************************/
-	/*								Format							*/
-	/****************************************************************/
 	
-	var Format = {}
-	
-	
-	/********************************/
-	/*			  String			*/
-	/********************************/
-	Format.uppercase = function(str) {
-		return str.toUpperCase();
-	}
-	
-	Format.lowercase = function(str) {
-		return str.toLowerCase();
-	}
-	
-	
-	
-
 	/****************************************************************/
 	/*								Core							*/
 	/****************************************************************/
-	
-	var JData = function(template, data) {
+	var JData = function(template, data, watchHandler) {
 		if (template) this.template = template;
+		if (watchHandler) this.watchHandler = watchHandler;
 		if (data) this.data = data;
+		if (this.template && typeof(this.template) === "object") {
+			this.map();
+		} else {
+			this.apply();
+		}
+	}
+	
+	JData.prototype.get = function() {
+		return this.formatted;
+	}
+	
+	JData.prototype.set = function(data) {
+		if (data) this.data = data;
+		if (this.template && typeof(this.template) === "object") {
+			this.map();
+		} else {
+			this.apply();
+		}
+		if (this.watchHandler) {
+			this.watchHandler(this);
+		}
+	}
+	
+	JData.prototype.setTemplate = function(template) {
+		if (template) this.template = template;
+		if (this.template && typeof(this.template) === "object") {
+			this.map();
+		} else {
+			this.apply();
+		}
+		if (this.watchHandler) {
+			this.watchHandler(this);
+		}
 	}
 	
 	JData.prototype.toString = function() {
@@ -52,18 +65,10 @@ var jdata = (function(){
 	/*								Apply							*/
 	/****************************************************************/
 	
-	JData.apply = function(template, data) {
-		var jd = new JData(template, data);
-		
-		jd.apply(template);
-		
-		return jd;
-	}
-	
-	JData.prototype.apply = function(template) {
-		this.formatted = template;
+	JData.prototype.apply = function() {
+		this.formatted = this.template;
 		var data = this.data;
-		var regexp = template.match(/\{ ?[^\{\}]+ ?\}[.a-zA-Z()]*/g);
+		var regexp = this.template.match(/\{ ?[^\{\}]+ ?\}[.a-zA-Z()]*/g);
 		for (var r in regexp) {
 			this.formatted = this.formatted.replace(regexp[r], transform(regexp[r], this.data));
 		}
@@ -91,7 +96,6 @@ var jdata = (function(){
 			//console.log(valuePath, valuePath[i], data);
 			data = data[valuePath[i]];
 		}
-		
 		return data;
 	}
 	
@@ -139,24 +143,16 @@ var jdata = (function(){
 	/*								Map								*/
 	/****************************************************************/
 	
-	JData.map = function(template, data) {
-		var jd = new JData(template, data);
-		
-		jd.map(template, data);
-		
-		return jd;
-	}
-	
-	JData.prototype.map = function(template, data) {
-		var dataLength = data.length;
+	JData.prototype.map = function() {
+		var dataLength = this.data.length;
 		if (dataLength == null) { // data is not an Array
-			this.formatted = duplicateObject(template);
-			arrayTransform(template, data, this.formatted);
+			this.formatted = duplicateObject(this.template);
+			arrayTransform(this.template, this.data, this.formatted);
 		} else { // data is an Array, need to iterate
 			this.formatted = new Array();
 			for (var i=0; i<dataLength; i++) {
-				this.formatted[i] = duplicateObject(template);
-				arrayTransform(template, data[i], this.formatted[i]);
+				this.formatted[i] = duplicateObject(this.template);
+				arrayTransform(this.template, this.data[i], this.formatted[i]);
 			}
 		}
 	}
@@ -168,6 +164,27 @@ var jdata = (function(){
 					repository[t] = repository[t].replace(regexp[r], transform(regexp[r], data));
 				}
 			}
+	}
+	
+	
+	
+	
+	/****************************************************************/
+	/*								Format							*/
+	/****************************************************************/
+	
+	var Format = {}
+	
+	
+	/********************************/
+	/*			  String			*/
+	/********************************/
+	Format.uppercase = function(str) {
+		return str.toUpperCase();
+	}
+	
+	Format.lowercase = function(str) {
+		return str.toLowerCase();
 	}
 	
 	
@@ -189,8 +206,9 @@ var jdata = (function(){
 		}
 		return newObject;
 	}
-	
-	
+
+
+
 	
 	return JData;
 })();

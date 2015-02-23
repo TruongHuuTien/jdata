@@ -1,0 +1,14 @@
+<html>
+<head>
+	<script src="../core/jdata.js"></script>
+</head>
+<body>
+	<script>
+		var s1 = new jdata("My name is {name}.uppercase()", {name: "John"}, function(s1jd) {
+			console.log('sample1 has changed to:',s1jd.get());
+		});
+		console.log(s1);
+		s1.set({name: "Peter"});
+	</script>
+</body>
+</html>
