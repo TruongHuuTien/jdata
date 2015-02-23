@@ -1,7 +1,7 @@
 /********************************************************************************************/
 /*																							*/
 /*										jdata - Core										*/
-/*											 1.0											*/
+/*											 1.1											*/
 /*																							*/
 /********************************************************************************************/
 
@@ -23,7 +23,11 @@ var jdata = (function(){
 	}
 	
 	JData.prototype.get = function() {
-		return this.formatted;
+		if (typeof(this.formatted) === "object") {
+			return duplicateFormattedObject(this.formatted);
+		} else {
+			return this.formatted;
+		}
 	}
 	
 	JData.prototype.set = function(data) {
@@ -91,9 +95,9 @@ var jdata = (function(){
 	
 	/* {name.first}, {name: {first: John}} => John */
 	function parseTemplateValue(templateValue, data) {
+		if (data == null) return null;
 		var valuePath = templateValue.split(".");
 		for (var i=0; i<valuePath.length; i++) {
-			//console.log(valuePath, valuePath[i], data);
 			data = data[valuePath[i]];
 		}
 		return data;
@@ -159,11 +163,18 @@ var jdata = (function(){
 	
 	function arrayTransform(template, data, repository) {
 		for (var t in template) {
+			if (typeof(template[t]) === "string") {
 				var regexp = template[t].match(/\{ ?[^\{\}]+ ?\}[.a-zA-Z()]*/g);
 				for (var r in regexp) {
 					repository[t] = repository[t].replace(regexp[r], transform(regexp[r], data));
 				}
+			} else if (typeof(template[t]) === "object" && template[t].formatted != null) {
+				template[t].set(data);
+				repository[t] = template[t];
+			} else {
+				arrayTransform(template[t], data, repository[t]);
 			}
+		}
 	}
 	
 	
@@ -200,8 +211,26 @@ var jdata = (function(){
 		for (var o in object) {
 			if (typeof(object[o]) === "object") {
 				newObject[o] = duplicateObject(object[o]);
+			} else if (typeof(object[o]) === "function") {
+				
 			} else {
-				newObject[o] = object[o]
+				newObject[o] = object[o];
+			}
+		}
+		return newObject;
+	}
+	
+	function duplicateFormattedObject(object) { // Recursive function
+		var newObject = new Object();
+		for (var o in object) {
+			if (typeof(object[o]) === "object") {
+				if (object[o].formatted != null && object[o].get != null) {
+					newObject[o] = object[o].get();
+				} else {
+					newObject[o] = duplicateFormattedObject(object[o]);
+				}
+			} else {
+				newObject[o] = object[o];
 			}
 		}
 		return newObject;

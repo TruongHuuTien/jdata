@@ -6,7 +6,7 @@
 	<script>
 		// Simple Sample. use Apply directly with a string
 		var simpleSample = new jdata("My Name is {name}.uppercase()", {name:"John"});
-		console.log('simpleSample', simpleSample.toString());
+		console.log('SimpleSample', simpleSample.toString());
 		
 		// Most common use. Template is an Object. Use it when Data is an Instance
 		var templatedObject = new jdata({
@@ -18,14 +18,14 @@
 				last	: "Doe"
 			}
 		});
-		console.log('templatedObject', templatedObject.get().firstname, templatedObject.get().lastname);
+		console.log('TemplatedObject', templatedObject.get().firstname, templatedObject.get().lastname);
 		
 		// Spécial use. Template can be an Array
 		var templatedArray = new jdata([
 			"in the first line: {name.first}",
 			"in the second line: {name.first}"
 		], {name:{first:"John"}});
-		console.log('templatedArray', templatedArray.get());
+		console.log('TemplatedArray', templatedArray.get());
 		
 		// Data is an Array. Common use when data is an Collection.
 		// Usefull with datable or repeated interface.
@@ -46,13 +46,23 @@
 				}
 			}
 		]);
-		console.log('dataArray', dataArray.get());
+		console.log('DataArray', dataArray.get());
 		
-		//you can add a watcher to know when data is changed
+		// You can add a watcher to know when data is changed
 		var watcherSample = new jdata("My Name is {name}.uppercase()", {name: "John"}, function(jd) {
-			console.log('watcherSample has changed', jd.get());
+			console.log('WatcherSample has changed', jd.get());
 		});
 		watcherSample.set({name: "Peter"});	
+		
+		// You can also embed a jdata object into an other
+		var embedded = new jdata({
+			nameStr	: simpleSample, // See line 8
+			city 	: "{city}"
+		}, {
+			name	: "Oliver",
+			city	: "Paris"
+		});
+		console.log('Embedded', embedded.get());
 	</script>
 </body>
 </html>
