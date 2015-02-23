@@ -6,14 +6,14 @@ A clean way to consume Data
 ### jdata.apply
 Simply create an dynamics String. Like printf.
 
-    new jData("My Name is {name.first}.uppercase()", {name:{first:"John"}})
+    new jdata("My Name is {name.first}.uppercase()", {name:{first:"John"}})
 
 ## jdata.map
 
 ### Bind an Object.
 If your data is an Object, like an Instance.
 
-    var templatedObject = new jData({
+    var templatedObject = new jdata({
         firstname	: "{name.first}",
         lastname	: "{name.last}"
     },{
@@ -26,7 +26,7 @@ If your data is an Object, like an Instance.
 ### Bind an Collection of object.
 If your data is an complex Array. Like a Collection of ressources.
 
-    var dataArray = new jData({
+    var dataArray = new jdata({
         firstname	: "{name.first}"
     }, [
         {
