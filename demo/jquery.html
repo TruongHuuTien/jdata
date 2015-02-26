@@ -4,15 +4,18 @@
 	<script src="../jquery/jdata.js"></script>
 </head>
 <body>
+	<h3>Sample 1</h3>
 	<div id="sample1"></div>
 	<script>
-		jdata.append("#sample1", "<p>My Name is {name.first}.uppercase()</p>", {name:{first:"John"}});
+		$('#sample1').jdata("<p>My Name is {name.first}.uppercase()</p>", {name:{first:"John"}});
 	</script>
 	
 	
+	<h3>Sample 2</h3>
 	<div id="sample2">
 		<p jdata="name"></p>
 		<input jdata="age" />
+		<p jdata="displayedAge"></p>
 	</div>
 	<script>
 		$("#sample2").jdata({
