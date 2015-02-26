@@ -8,27 +8,31 @@
 var jdata = (function(JData, $){
 	
 	JData.append = function($el, template, data) {
-		$($el).append(this.apply(template, data).toString());
+		$($el).append(new jdata(template, data).get());
 	}
 	
 	JData.html = function($el, template, data) {
-		$($el).html(this.apply(template, data).toString());
+		$($el).html(new jdata(template, data).get());
 	}
 	
 	JData.val = function($el, template, data) {
-		$($el).val(this.apply(template, data).toString());
+		$($el).val(new jdata(template, data).get());
 	}
 	
 	JData.render = function($el, template, data) {
-		$($el).find('[jdata]').each(function() {
-			var $this = $(this);
-			var t = template[$this.attr('jdata')];
-			if ($this.is('input')) {
-				JData.val($this, t, data);
-			} else {
-				JData.html($this, t, data)
-			}
-		});
+		if (typeof(template) === "object") {
+			$($el).find('[jdata]').each(function() {
+				var $this = $(this);
+				var t = template[$this.attr('jdata')];
+				if ($this.is('input')) {
+					JData.val($this, t, data);
+				} else {
+					JData.html($this, t, data)
+				}
+			});
+		} else {
+			JData.html($el, template, data);
+		}
 	}
 	
 	
@@ -76,12 +80,10 @@ var jdata = (function(JData, $){
 				var $tr = $("<tr></tr>");
 				
 				$tr.attr("row-index", i);
-				if (template.column[c].label != null) {
 					for (var a in template.row.attribute) {
 						var tr = new jdata(template.row.attribute[a], row);
 						$tr.attr(a, tr.get());
 					}
-				}
 				for (var c in template.column) {
 					var $td = $('<td data-column-name="'+c+'"></td>');
 					

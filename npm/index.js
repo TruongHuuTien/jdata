@@ -186,9 +186,9 @@ var jdata = (function(){
 	
 	JData.format = {}
 	
-    /********************************/
-    /*            String            */
-    /********************************/
+	/********************************/
+	/*            String            */
+	/********************************/
 	JData.format.uppercase = function(str) {
 		return str.toUpperCase();
 	}

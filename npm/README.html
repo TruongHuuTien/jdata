@@ -8,7 +8,7 @@
 
 <p>Simply create an dynamics String. Like printf.</p>
 
-<pre><code>jData.apply("My Name is {name.first}.uppercase()", {name:{first:"John"}})
+<pre><code>new jdata("My Name is {name.first}.uppercase()", {name:{first:"John"}})
 </code></pre>
 
 <h2>jdata.map</h2>
@@ -17,7 +17,7 @@
 
 <p>If your data is an Object, like an Instance.</p>
 
-<pre><code>var templatedObject = jData.map({
+<pre><code>var templatedObject = new jdata({
     firstname   : "{name.first}",
     lastname    : "{name.last}"
 },{
@@ -32,7 +32,7 @@
 
 <p>If your data is an complex Array. Like a Collection of ressources.</p>
 
-<pre><code>var dataArray = jData.map({
+<pre><code>var dataArray = new jdata({
     firstname   : "{name.first}"
 }, [
     {
@@ -49,6 +49,15 @@
         }
     }
 ]);
+</code></pre>
+
+<h2>jdata.watch</h2>
+
+<p>You can notify a jdata change by placing a watcher on it:</p>
+
+<pre><code>var watcherSample = new jdata("My Name is {name}.uppercase()", {name: "John"}, function(jd) {
+    console.log('watcherSample has changed', jd.get());
+});
 </code></pre>
 
 <h1>Client&rsquo;s side</h1>
