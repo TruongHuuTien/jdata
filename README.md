@@ -7,7 +7,7 @@ A clean way to consume Data
 ### jdata.apply
 Simply create an dynamics String. Like printf.
 
-    new jdata("My Name is {name.first}.uppercase()", {name:{first:"John"}})
+    jdata.print("My Name is {name.first}.uppercase()", {name:{first:"John"}});
 
 ## jdata.map
 

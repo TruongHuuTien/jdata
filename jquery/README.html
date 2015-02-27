@@ -8,7 +8,7 @@
 
 <p>Simply create an dynamics String. Like printf.</p>
 
-<pre><code>jData.apply("My Name is {name.first}.uppercase()", {name:{first:"John"}})
+<pre><code>jdata.print("My Name is {name.first}.uppercase()", {name:{first:"John"}});
 </code></pre>
 
 <h2>jdata.map</h2>
@@ -85,3 +85,22 @@
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
+
+<h1>Ajax data</h1>
+
+<p>the data parameters can be an url. Jdata execute an $.getJSON on this url, then apply jdata template.</p>
+
+<pre><code>jdata.ajax(template, '/instance.json');
+</code></pre>
+
+<h2>The magic function</h2>
+
+<pre><code> $('#viewer').jdata(template, 'instance.json');
+</code></pre>
+
+<ol>
+<li>Execute the request /instance.json to get data</li>
+<li>apply the template</li>
+<li>put data into your interface</li>
+</ol>
+
