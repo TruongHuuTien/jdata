@@ -102,6 +102,7 @@ var jdata = (function(){
 		if (data == null) return null;
 		var valuePath = templateValue.split(".");
 		for (var i=0; i<valuePath.length; i++) {
+			if (data == null) {return null};
 			data = data[valuePath[i]];
 		}
 		return data;
