@@ -8,31 +8,46 @@
 var jdata = (function(JData, $){
 	
 	JData.append = function($el, template, data) {
-		$($el).append(new jdata(template, data).get());
+		$($el).append(jdata.print(template, data));
 	}
 	
 	JData.html = function($el, template, data) {
-		$($el).html(new jdata(template, data).get());
+		$($el).html(jdata.print(template, data));
 	}
 	
 	JData.val = function($el, template, data) {
-		$($el).val(new jdata(template, data).get());
+		$($el).val(jdata.print(template, data));
 	}
 	
 	JData.render = function($el, template, data) {
-		if (typeof(template) === "object") {
-			$($el).find('[jdata]').each(function() {
-				var $this = $(this);
-				var t = template[$this.attr('jdata')];
-				if ($this.is('input')) {
-					JData.val($this, t, data);
-				} else {
-					JData.html($this, t, data)
-				}
-			});
+		if (typeof(data) === "object") {
+			if (typeof(template) === "object") {
+				$($el).find('[jdata]').each(function() {
+					var $this = $(this);
+					var t = template[$this.attr('jdata')];
+					if ($this.is('input')) {
+						JData.val($this, t, data);
+					} else {
+						JData.html($this, t, data)
+					}
+				});
+			} else {
+				JData.html($el, template, data);
+			}
 		} else {
-			JData.html($el, template, data);
+			$.getJSON(data, function(data) {
+				JData.render($el, template, data);
+			});
 		}
+	}
+	
+	JData.ajax = function(template, url, callback) {
+		$.getJSON(url, function(data) {
+			var jd = new jdata(template, data);
+			if (callback) {
+				callback(jd);
+			}
+		});
 	}
 	
 	

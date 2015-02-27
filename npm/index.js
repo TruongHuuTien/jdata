@@ -22,6 +22,10 @@ var jdata = (function(){
 		}
 	}
 	
+	JData.print = function(template, data) {
+		return new JData(template, data).get();
+	}
+	
 	JData.prototype.get = function() {
 		if (typeof(this.formatted) === "object") {
 			return duplicateFormattedObject(this.formatted);

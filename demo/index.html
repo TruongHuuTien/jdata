@@ -5,8 +5,7 @@
 <body>
 	<script>
 		// Simple Sample. use Apply directly with a string
-		var simpleSample = new jdata("My Name is {name}.uppercase()", {name:"John"});
-		console.log('SimpleSample', simpleSample.toString());
+		console.log('SimpleSample', jdata.print("My Name is {name}.uppercase()", {name:"John"}));
 		// --> My Name is JOHN
 		
 		// Most common use. Template is an Object. Use it when Data is an Instance
@@ -61,7 +60,7 @@
 		
 		// You can also embed a jdata object into an other
 		var embedded = new jdata({
-			nameStr	: simpleSample, // See line 8
+			nameStr	: templatedObject, // See line 8
 			city 	: "{city}"
 		}, {
 			name	: "Oliver",
