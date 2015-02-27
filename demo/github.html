@@ -13,7 +13,9 @@
 	<script>
 		var template = {
 			row	: {
-				attribute	: {}
+				attribute	: {
+					url			: "{ url }"
+				}
 			},
 			column	: {
 				name	: {
@@ -28,23 +30,64 @@
 			}
 		};
 		
+		var viewerTemplate = {
+			name		: "{ name }",
+			avatar		: "<img src='{ owner.avatar_url }' style='max-width:100px;'/>",
+			description	: "{ description }",
+			homepage	: '<a href="{homepage}">{ homepage }</a>'
+		}
+		
 		$(document).ready(function() {
+			$("#viewer-box").hide();
 			$('#searchButton').click(function(){
 				$('#datatable').empty();
 				$.getJSON('http://api.github.com/search/repositories?q='+$('#searchInput').val(), function(data){
 					jdata.datatable('#datatable', template, data.items);
+					$('#datatable').find('tr').click(function(event) {
+						$('#list-box').hide();
+						$("#viewer-box").show();
+						$('#viewer').jdata(viewerTemplate, $(event.currentTarget).attr('url'));
+					});
 				});
 			});
-			
+			$('#backBtn').click(function(){
+				$('#list-box').show();
+				$("#viewer-box").hide();
+			});
 		});
 	</script>
 </head>
 <body>
-	<div class="container-fluid" style="margin: 40px 20px;">
+	<div class="container-fluid" style="margin: 40px 20px;" id="list-box">
 		<div class="panel panel-default" style="padding: 40px 20px;">
 			<input type="text" id="searchInput" />
 			<button id="searchButton">Search</button>
 			<table id="datatable" class="table table-hover table-striped"></table>
+		</div>
+	</div>
+	<div class="container-fluid" id="viewer-box" style="margin: 40px 20px;" >
+		<div class="panel panel-default" id="viewer" style="margin: 40px 20px;" >
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-xs-4" jdata="avatar"></div>
+					<div class="col-xs-8"><h1 jdata="name"></h1></div>
+				</div>
+				<hr />
+				<div class="row">
+					<div class="col-xs-12"><p jdata="description"></p></div>
+				</div>
+				<hr />
+				<div class="row">
+					<div class="col-xs-6 col-sm-3"><label>homepage:</label></div>
+					<div class="col-xs-6 col-sm-9"><p jdata="homepage"></p></div>
+				</div>
+				<hr />
+				<div class="row" style="margin-top: 40px;">
+					<div class="col-sm-3 col-sm-offset-9 col-xs-12">
+						<button id="backBtn" class="btn btn-block btn-default">Back</button>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>
