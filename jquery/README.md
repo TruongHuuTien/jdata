@@ -85,6 +85,7 @@ the data parameters can be an url. Jdata execute an $.getJSON on this url, then 
     jdata.ajax(template, '/instance.json');
     
  ## The magic function
+ 
      $('#viewer').jdata(template, 'instance.json');
      
 1. Execute the request /instance.json to get data
