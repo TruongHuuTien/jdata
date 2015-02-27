@@ -45,7 +45,6 @@ If your data is an complex Array. Like a Collection of ressources.
     ]);
     
     
-    
 # use json's template to create your interface
 
 ## Bootstrap datatable
@@ -78,4 +77,18 @@ If your data is an complex Array. Like a Collection of ressources.
         </div>
     </body>
     </html>
+    
+    
+# Ajax data
+the data parameters can be an url. Jdata execute an $.getJSON on this url, then apply jdata template.
+
+    jdata.ajax(template, '/instance.json');
+    
+ ## The magic function
+     $('#viewer').jdata(template, 'instance.json');
+     
+1. Execute the request /instance.json to get data
+2. apply the template
+3. put data into your interface
+ 
     

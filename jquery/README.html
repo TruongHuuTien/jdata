@@ -85,3 +85,20 @@
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
+
+<h1>Ajax data</h1>
+
+<p>the data parameters can be an url. Jdata execute an $.getJSON on this url, then apply jdata template.</p>
+
+<pre><code>jdata.ajax(template, '/instance.json');
+</code></pre>
+
+<p> ## The magic function
+     $(&lsquo;#viewer&rsquo;).jdata(template, &lsquo;instance.json&rsquo;);</p>
+
+<ol>
+<li>Execute the request /instance.json to get data</li>
+<li>apply the template</li>
+<li>put data into your interface</li>
+</ol>
+
