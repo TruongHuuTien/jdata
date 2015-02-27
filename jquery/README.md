@@ -83,8 +83,9 @@ If your data is an complex Array. Like a Collection of ressources.
 the data parameters can be an url. Jdata execute an $.getJSON on this url, then apply jdata template.
 
     jdata.ajax(template, '/instance.json');
-    
- ## The magic function
+
+
+## The magic function
  
      $('#viewer').jdata(template, 'instance.json');
      
