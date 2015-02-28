@@ -8356,8 +8356,17 @@ a .link-text {
   font-size: 20px;
   padding-top: 5px;
   text-align: center;
-  color: #ffcd57;
   letter-spacing: 1px;
+}
+#header #header-brand #brand-logo {
+  display: block;
+  width: 100px;
+  height: 32px;
+  background-image: url('../img/jdata-header-logo.png');
+  background-repeat: no-repeat;
+  color: white;
+  border: none;
+  -webkit-box-shadow: none;
 }
 #header #header-nav .header-nav-item {
   position: relative;
