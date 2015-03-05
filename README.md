@@ -8,7 +8,7 @@ A clean way to consume Data [http://truonghuutien.github.io/jdata/](http://truon
 ### jdata.apply
 Simply create an dynamics String. Like printf.
 
-    jdata.print("My Name is {name.first}.uppercase()", {name:{first:"John"}});
+    jdata.print({name:{first:"John"}}, "My Name is {name.first}.uppercase()");
 
 ## jdata.map
 
@@ -28,9 +28,7 @@ If your data is an Object, like an Instance.
 ### Bind an Collection of object.
 If your data is an complex Array. Like a Collection of ressources.
 
-    var dataArray = new jdata({
-        firstname	: "{name.first}"
-    }, [
+    var dataArray = new jdata([
         {
             name	: {
                 first	: "John"
@@ -44,13 +42,8 @@ If your data is an complex Array. Like a Collection of ressources.
                 first	: "Oliver"
             }
         }
-    ]);
-    
-## jdata.watch
-You can notify a jdata change by placing a watcher on it:
-
-    var watcherSample = new jdata("My Name is {name}.uppercase()", {name: "John"}, function(jd) {
-        console.log('watcherSample has changed', jd.get());
+    ], {
+        firstname	: "{name.first}"
     });
 
 
@@ -73,7 +66,7 @@ You can notify a jdata change by placing a watcher on it:
             
             $(document).ready(function() {
                 $.getJSON('./collection.json', function(data){
-                    jdata.datatable('#datatable', template, data);
+                    jdata.datatable('#datatable', data, template);
                 });
             });
         </script>
