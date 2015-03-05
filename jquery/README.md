@@ -6,7 +6,7 @@ A clean way to consume Data
 ### jdata.apply
 Simply create an dynamics String. Like printf.
 
-    jdata.print("My Name is {name.first}.uppercase()", {name:{first:"John"}});
+    jdata.print({name:{first:"John"}}, "My Name is {name.first}.uppercase()");
 
 ## jdata.map
 
@@ -14,21 +14,19 @@ Simply create an dynamics String. Like printf.
 If your data is an Object, like an Instance.
 
     var templatedObject = jData.map({
-        firstname	: "{name.first}",
-        lastname	: "{name.last}"
-    },{
         name		: {
             first	: "John",
             last	: "Doe"
         }
+    }, {
+        firstname	: "{name.first}",
+        lastname	: "{name.last}"
     });
 
 ### Bind an Collection of object.
 If your data is an complex Array. Like a Collection of ressources.
 
-    var dataArray = jData.map({
-        firstname	: "{name.first}"
-    }, [
+    var dataArray = jData.map([
         {
             name	: {
                 first	: "John"
@@ -42,7 +40,9 @@ If your data is an complex Array. Like a Collection of ressources.
                 first	: "Oliver"
             }
         }
-    ]);
+    ], {
+        firstname	: "{name.first}"
+    });
     
     
 # use json's template to create your interface
@@ -64,7 +64,7 @@ If your data is an complex Array. Like a Collection of ressources.
             
             $(document).ready(function() {
                 $.getJSON('./collection.json', function(data){
-                    jdata.datatable('#datatable', template, data);
+                    jdata.datatable('#datatable', data, template);
                 });
             });
         </script>
@@ -82,12 +82,12 @@ If your data is an complex Array. Like a Collection of ressources.
 # Ajax data
 the data parameters can be an url. Jdata execute an $.getJSON on this url, then apply jdata template.
 
-    jdata.ajax(template, '/instance.json');
+    jdata.ajax('/instance.json', template);
 
 
 ## The magic function
  
-     $('#viewer').jdata(template, 'instance.json');
+     $('#viewer').jdata('instance.json', template);
      
 1. Execute the request /instance.json to get data
 2. apply the template
