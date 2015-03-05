@@ -1,7 +1,7 @@
 /********************************************************************************************/
 /*                                                                                          */
 /*                                      jdata - Core                                        */
-/*                                           1.1                                            */
+/*                                           1.3                                            */
 /*                                                                                          */
 /********************************************************************************************/
 
@@ -11,15 +11,18 @@ var jdata = (function(){
 	/****************************************************************/
 	/*                              Core                            */
 	/****************************************************************/
-	var JData = function(template, data, watchHandler) {
-		if (template) this.template = template;
-		if (watchHandler) this.watchHandler = watchHandler;
+	var JData = function(data, template) {
 		if (data) this.data = data;
+		if (template) this.template = template;
 		if (this.template && typeof(this.template) === "object") {
 			this.map();
 		} else {
 			this.apply();
 		}
+	}
+	
+	JData.print = function(data, template) {
+		return new JData(data, template).get();
 	}
 	
 	JData.prototype.get = function() {
@@ -37,9 +40,7 @@ var jdata = (function(){
 		} else {
 			this.apply();
 		}
-		if (this.watchHandler) {
-			this.watchHandler(this);
-		}
+		// change event
 	}
 	
 	JData.prototype.setTemplate = function(template) {
@@ -49,9 +50,7 @@ var jdata = (function(){
 		} else {
 			this.apply();
 		}
-		if (this.watchHandler) {
-			this.watchHandler(this);
-		}
+		// change event
 	}
 	
 	JData.prototype.toString = function() {
@@ -81,10 +80,10 @@ var jdata = (function(){
 	/* {name.first}.uppercase(), {name: {first: John}} => JOHN */
 	function transform(el, data) {
 		var extracted = extract(el);
-		var data = parseTemplateValue(extracted.value, data);
+		var data = parseTemplateValue(data, extracted.value);
 		if (data != null) {
 			if (extracted.format) {
-				data = applyFormat(extracted.format, data);
+				data = applyFormat(data, extracted.format);
 			}
 		} else {
 			data = "";
@@ -94,17 +93,18 @@ var jdata = (function(){
 	}
 	
 	/* {name.first}, {name: {first: John}} => John */
-	function parseTemplateValue(templateValue, data) {
+	function parseTemplateValue(data, templateValue) {
 		if (data == null) return null;
 		var valuePath = templateValue.split(".");
 		for (var i=0; i<valuePath.length; i++) {
+			if (data == null) {return null};
 			data = data[valuePath[i]];
 		}
 		return data;
 	}
 	
 	/* uppercase, John => JOHN */
-	function applyFormat(format, data) {
+	function applyFormat(data, format) {
 		for (var i=0; i<format.length; i++) {
 			for (var j=0, f=JData.format; j<format[i].length; j++) {
 				f = f[format[i][j]];
@@ -151,17 +151,17 @@ var jdata = (function(){
 		var dataLength = this.data.length;
 		if (dataLength == null) { // data is not an Array
 			this.formatted = duplicateObject(this.template);
-			arrayTransform(this.template, this.data, this.formatted);
+			arrayTransform(this.data, this.template, this.formatted);
 		} else { // data is an Array, need to iterate
 			this.formatted = new Array();
 			for (var i=0; i<dataLength; i++) {
 				this.formatted[i] = duplicateObject(this.template);
-				arrayTransform(this.template, this.data[i], this.formatted[i]);
+				arrayTransform(this.data[i], this.template, this.formatted[i]);
 			}
 		}
 	}
 	
-	function arrayTransform(template, data, repository) {
+	function arrayTransform(data, template, repository) {
 		for (var t in template) {
 			if (typeof(template[t]) === "string") {
 				var regexp = template[t].match(/\{ ?[^\{\}]+ ?\}[.a-zA-Z()]*/g);
@@ -172,7 +172,7 @@ var jdata = (function(){
 				template[t].set(data);
 				repository[t] = template[t];
 			} else {
-				arrayTransform(template[t], data, repository[t]);
+				arrayTransform(data, template[t], repository[t]);
 			}
 		}
 	}

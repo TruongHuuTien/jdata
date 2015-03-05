@@ -1,6 +1,6 @@
 {
   "name": "jdata",
-  "version": "0.1.6",
+  "version": "0.2",
   "description": "A clean way to consume data",
   "main": "jdata.js",
   "scripts": {

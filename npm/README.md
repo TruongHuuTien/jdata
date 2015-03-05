@@ -1,12 +1,12 @@
 # jdata
-A clean way to consume Data
+A clean way to consume Data [http://truonghuutien.github.io/jdata/](http://truonghuutien.github.io/jdata/)
 
 ## String Extend
 
 ### jdata.apply
 Simply create an dynamics String. Like printf.
 
-    new jdata("My Name is {name.first}.uppercase()", {name:{first:"John"}})
+    jdata.print("My Name is {name.first}.uppercase()", {name:{first:"John"}});
 
 ## jdata.map
 
