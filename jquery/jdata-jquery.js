@@ -1,49 +1,49 @@
 /********************************************************************************************/
 /*                                                                                          */
 /*                                      jData - JQuery                                      */
-/*                                           0.3                                            */
+/*                                           1.0                                            */
 /*                                                                                          */
 /********************************************************************************************/
 
 var jdata = (function(JData, $){
 	
-	JData.append = function($el, template, data) {
-		$($el).append(jdata.print(template, data));
+	JData.append = function($el, data, template) {
+		$($el).append(jdata.print(data, template));
 	}
 	
-	JData.html = function($el, template, data) {
-		$($el).html(jdata.print(template, data));
+	JData.html = function($el, data, template) {
+		$($el).html(jdata.print(data, template));
 	}
 	
-	JData.val = function($el, template, data) {
-		$($el).val(jdata.print(template, data));
+	JData.val = function($el, data, template) {
+		$($el).val(jdata.print(data, template));
 	}
 	
-	JData.render = function($el, template, data) {
+	JData.render = function($el, data, template) {
 		if (typeof(data) === "object") {
 			if (typeof(template) === "object") {
 				$($el).find('[jdata]').each(function() {
 					var $this = $(this);
 					var t = template[$this.attr('jdata')];
 					if ($this.is('input')) {
-						JData.val($this, t, data);
+						JData.val($this, data, t);
 					} else {
-						JData.html($this, t, data)
+						JData.html($this, data, t);
 					}
 				});
 			} else {
-				JData.html($el, template, data);
+				JData.html($el, data, template);
 			}
 		} else {
 			$.getJSON(data, function(data) {
-				JData.render($el, template, data);
+				JData.render($el, data, template);
 			});
 		}
 	}
 	
-	JData.ajax = function(template, url, callback) {
+	JData.ajax = function(url, template, callback) {
 		$.getJSON(url, function(data) {
-			var jd = new jdata(template, data);
+			var jd = new jdata(data, template);
 			if (callback) {
 				callback(jd);
 			}
@@ -87,7 +87,7 @@ var jdata = (function(JData, $){
 			return $thead;
 		}
 		
-		function tbody(template, data) {
+		function tbody(data, template) {
 			var $tbody = $('<tbody></tbody>');
 			
 			for (var i=0; i<data.length; i++) {
@@ -96,7 +96,7 @@ var jdata = (function(JData, $){
 				
 				$tr.attr("row-index", i);
 					for (var a in template.row.attribute) {
-						var tr = new jdata(template.row.attribute[a], row);
+						var tr = new jdata(row, template.row.attribute[a]);
 						$tr.attr(a, tr.get());
 					}
 				for (var c in template.column) {
@@ -113,7 +113,7 @@ var jdata = (function(JData, $){
 						}
 					}
 					if (template.column[c].value) {
-						var td = new jdata(template.column[c].value, row);
+						var td = new jdata(row, template.column[c].value);
 						$td.html(td.get());
 					}
 					$tr.append($td);
@@ -141,9 +141,9 @@ var jdata = (function(JData, $){
 			return $tfoot;
 		}
 		
-		var Datatable = function($el, template, data, handle) {
+		var Datatable = function($el, data, template, handle) {
 			this.$thead = thead(template);
-			this.$tbody = tbody(template, data);
+			this.$tbody = tbody(data, template);
 			this.$tfoot = tfoot(template);
 			this.$table = $($el);
 			
@@ -197,7 +197,7 @@ var jdata = (function(JData, $){
 			return $thead;
 		}
 		
-		function tbody(template, data) {
+		function tbody(data, template) {
 			var $tbody = $('<div class="tbody"></div>');
 			
 			for (var i=0; i<data.length; i++) {
@@ -207,7 +207,7 @@ var jdata = (function(JData, $){
 				$tr.attr("row-index", i);
 				if (template.row.attribute) {
 					for (var a in template.row.attribute) {
-						var tr = new jdata(template.row.attribute[a], row);
+						var tr = new jdata(row, template.row.attribute[a]);
 						$tr.attr(a, tr.get());
 					}
 				}
@@ -225,7 +225,7 @@ var jdata = (function(JData, $){
 						}
 					}
 					if (template.column[c].value) {
-						var td = new jdata(template.column[c].value, row);
+						var td = new jdata(row, template.column[c].value);
 						$td.html(td.get());
 					}
 					$tr.append($td);
@@ -253,9 +253,9 @@ var jdata = (function(JData, $){
 			return $tfoot;
 		}
 		
-		var Datatable = function($el, template, data, handle) {
+		var Datatable = function($el, data, template, handle) {
 			this.$thead = thead(template);
-			this.$tbody = tbody(template, data);
+			this.$tbody = tbody(data, template);
 			this.$tfoot = tfoot(template);
 			this.$table = $($el);
 			
@@ -277,9 +277,11 @@ var jdata = (function(JData, $){
 	
 	
 	
-	$.fn.jdata = function(template, data) {
-		JData.render(this, template, data)
+	$.fn.jdata = function(data, template) {
+		JData.render(this, data, template);
 	}
+	
+	JData.extend = $.fn.jdata;
 	
 	return JData;
 })(jdata, jQuery);

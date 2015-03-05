@@ -27,7 +27,8 @@
 		
 		$(document).ready(function() {
 			$.getJSON('./collection.json', function(data){
-				jdata.datatable('#datatable', template, data);
+				console.log(data);
+				jdata.datatable('#datatable', data, template);
 			});
 		});
 	</script>
