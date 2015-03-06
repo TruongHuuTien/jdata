@@ -7,7 +7,17 @@
 <body>
 	<ul id="list"></ul>
 	<script>
-		$('#list').jdataList();
+		var list = [{
+			label	: "Name",
+			value	: "name"
+		}, {
+			label	: "Phone",
+			value	: "phone"
+		}, {
+			label	: "Address",
+			value	: "address"
+		}];
+		$('#list').jdataList(list);
 	</script>
 </body>
 </html>
