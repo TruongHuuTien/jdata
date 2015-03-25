@@ -1,73 +1,8 @@
 <html>
 <head>
-	<script src="/core/jdata.js"></script>
+	<script src="../core/jdata.js"></script>
 </head>
 <body>
-	<script>
-		// Simple Sample. use Apply directly with a string
-		console.log('SimpleSample', jdata.print({name:"John"}, "My Name is {name}.uppercase()"));
-		// --> My Name is JOHN
-		
-		// Most common use. Template is an Object. Use it when Data is an Instance
-		var templatedObject = new jdata({
-			name		: {
-				first	: "John",
-				last	: "Doe"
-			}
-		},{
-			firstname	: "{name.first}",
-			lastname	: "{name.last}"
-		});
-		console.log('TemplatedObject', templatedObject.get().firstname, templatedObject.get().lastname);
-		// --> John // Doe
-		
-		// Spécial use. Template can be an Array
-		var templatedArray = new jdata({name:{first:"John"}}, [
-			"in the first line: {name.first}",
-			"in the second line: {name.first}"
-		]);
-		console.log('TemplatedArray', templatedArray.get());
-		// --> ["in the first line: John", "in the second line: John]
-		
-		// Data is an Array. Common use when data is an Collection.
-		// Usefull with datable or repeated interface.
-		var dataArray = new jdata( [
-			{
-				name	: {
-					first	: "John"
-				}
-			}, {
-				name	: {
-					first	: "Peter"
-				}
-			},{
-				name	: {
-					first	: "Oliver"
-				}
-			}
-		], {
-			firstname	: "{name.first}"
-		});
-		console.log('DataArray', dataArray.get());
-		// --> [{firstname: "John"}, {firstname: "Peter"}, {firstname: "Oliver"}]
-		
-		// You can add a watcher to know when data is changed
-		var watcherSample = new jdata("My Name is {name}.uppercase()", {name: "John"}, function(jd) {
-			console.log('WatcherSample', 'has changed', jd.get());
-		});
-		watcherSample.set({name: "Peter"});
-		// --> has changed // My Name is PETER
-		
-		// You can also embed a jdata object into an other
-		var embedded = new jdata({
-			name	: "Oliver",
-			city	: "Paris"
-		},{
-			nameStr	: templatedObject, // See line 8
-			city 	: "{city}"
-		});
-		console.log('Embedded', embedded.get());
-		// --> {nameStr: "My Name is OLIVER", city: "Paris"}
-	</script>
+	
 </body>
 </html>
