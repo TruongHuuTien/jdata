@@ -8,7 +8,7 @@
 var jdata = (function(){
 	
 	/****************************************************************/
-	/*                          Constructor                         */
+	/*                          constructor                         */
 	/****************************************************************/
 	var jdata = function(template, data) {
 		this.src.set(template, data);
@@ -17,8 +17,16 @@ var jdata = (function(){
 	
 	
 	/****************************************************************/
-	/*                            Public                            */
+	/*                            public                            */
 	/****************************************************************/
+	jdata.prototype.set = function(template, data) {
+		this.clear();
+		this.src.setTemplate(template);
+		this.src.setData(data);
+		this.apply();
+		return this;
+	}
+	
 	jdata.prototype.getTemplate = function() {
 		return this.src.getTemplate();
 	}
@@ -55,7 +63,7 @@ var jdata = (function(){
 	/****************************************************************/
 	/*                              src                             */
 	/****************************************************************/
-	jdata.prototype.src = function() {};
+	jdata.prototype.src = {};
 	
 	jdata.prototype.src.set = function(template, data) {
 		this.template = template;
