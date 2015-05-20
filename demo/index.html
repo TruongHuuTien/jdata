@@ -4,70 +4,18 @@
 </head>
 <body>
 	<script>
-		// Simple Sample. use Apply directly with a string
-		console.log('SimpleSample', jdata.print("My Name is {name}.uppercase()", {name:"John"}));
-		// --> My Name is JOHN
-		
-		// Most common use. Template is an Object. Use it when Data is an Instance
-		var templatedObject = new jdata({
-			firstname	: "{name.first}",
-			lastname	: "{name.last}"
-		},{
-			name		: {
-				first	: "John",
-				last	: "Doe"
-			}
-		});
-		console.log('TemplatedObject', templatedObject.get().firstname, templatedObject.get().lastname);
-		// --> John // Doe
-		
-		// Spécial use. Template can be an Array
-		var templatedArray = new jdata([
-			"in the first line: {name.first}",
-			"in the second line: {name.first}"
-		], {name:{first:"John"}});
-		console.log('TemplatedArray', templatedArray.get());
-		// --> ["in the first line: John", "in the second line: John]
-		
-		// Data is an Array. Common use when data is an Collection.
-		// Usefull with datable or repeated interface.
-		var dataArray = new jdata({
-			firstname	: "{name.first}"
-		}, [
-			{
-				name	: {
-					first	: "John"
-				}
-			}, {
-				name	: {
-					first	: "Peter"
-				}
-			},{
-				name	: {
-					first	: "Oliver"
-				}
-			}
-		]);
-		console.log('DataArray', dataArray.get());
-		// --> [{firstname: "John"}, {firstname: "Peter"}, {firstname: "Oliver"}]
-		
-		// You can add a watcher to know when data is changed
-		var watcherSample = new jdata("My Name is {name}.uppercase()", {name: "John"}, function(jd) {
-			console.log('WatcherSample', 'has changed', jd.get());
-		});
-		watcherSample.set({name: "Peter"});
-		// --> has changed // My Name is PETER
-		
-		// You can also embed a jdata object into an other
-		var embedded = new jdata({
-			nameStr	: templatedObject, // See line 8
-			city 	: "{city}"
-		}, {
-			name	: "Oliver",
-			city	: "Paris"
-		});
-		console.log('Embedded', embedded.get());
-		// --> {nameStr: "My Name is OLIVER", city: "Paris"}
+		var data = {
+			name: {
+				first: "Tien",
+				last: "Truong"
+			},
+		}
+		var template = {
+			firstname: "{ name.first }",
+			lastname: "{ name.last }"
+		}
+		var j = new jdata(template, data);
+		console.log(j);
 	</script>
 </body>
 </html>
