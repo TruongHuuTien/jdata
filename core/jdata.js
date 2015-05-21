@@ -5,20 +5,28 @@
 /*                                                                                          */
 /********************************************************************************************/
 
-var jdata = (function(){
+var jdata = (function( $ ){
 	
 	/****************************************************************/
 	/*                          constructor                         */
 	/****************************************************************/
 	var jdata = function(template, data) {
-		this.src.set(template, data);
+		this.src.set(JSON.parse(JSON.stringify(template)), data);
 		this.apply();
 	};
 	
 	
 	/****************************************************************/
-	/*                            public                            */
+	/*                           get / set                          */
 	/****************************************************************/
+	jdata.prototype.get = function(path) { // To do;
+		if (path == null) {
+			return this;
+		} else {
+			return this[path];
+		}
+	}
+	
 	jdata.prototype.set = function(template, data) {
 		this.clear();
 		this.src.setTemplate(template);
@@ -48,6 +56,10 @@ var jdata = (function(){
 		return this;
 	}
 	
+	
+	/****************************************************************/
+	/*                           utilities                          */
+	/****************************************************************/
 	jdata.prototype.toString = function() {
 		return JSON.stringify(this);
 	}
@@ -95,6 +107,7 @@ var jdata = (function(){
 			this[o] = this.src.template[o];
 		}
 		applyTemplate(this, this.src.data);
+		this.view.update();
 		return this;
 	}
 	
@@ -175,5 +188,97 @@ var jdata = (function(){
 	}
 	
 	
+	
+/********************************************************************************************/
+/*                                                                                          */
+/*                                      jdata - JQuery                                      */
+/*                                           1.0                                            */
+/*                                                                                          */
+/********************************************************************************************/
+
+	
+	/****************************************************************/
+	/*                            append                            */
+	/****************************************************************/
+	jdata.prototype.append = function($el, path) {
+		var value = this.get(path);
+		$el.append(value);
+	}
+	
+	jdata.prototype.html = function($el, path) {
+		var value = this.get(path);
+		$el.html(value);
+	}
+	
+	jdata.prototype.val = function($el, path) {
+		var value = this.get(path);
+		$el.val(value);
+	}
+	
+	
+	/****************************************************************/
+	/*                            render                            */
+	/****************************************************************/
+	jdata.prototype.render = function(el, callback) {
+		$(el).find('[jdata]').each(function(index, currentTarget) {
+			var $el = $(currentTarget);
+			var path = $el.attr('jdata');
+			
+			if ($el.is('input')) {
+				this.val($el, path);
+			} else {
+				this.html($el, path);
+			}
+		}.bind(this));
+	}
+	
+	
+	/****************************************************************/
+	/*                             view                             */
+	/****************************************************************/
+	jdata.prototype.createView = function(el, handle) {
+		this.view.parent = this;
+		this.view.create(el, handle);
+	}
+	
+	jdata.prototype.view = function(){};
+	
+	jdata.prototype.view.create = function(el, handle) {
+		this.$elements = {};
+		$(el).find('[jdata]').each(function(index, currentTarget) {
+			var $el = $(currentTarget);
+			var path = $el.attr('jdata');
+			
+			this.$elements[path] = $el;
+			
+			if ($el.is('input')) {
+				this.parent.val($el, path);
+				this.events($el, path);
+			} else {
+				this.parent.html($el, path);
+			}
+		}.bind(this));
+	}
+	
+	jdata.prototype.view.events = function($el, path) {
+		$el.on("keyup change", function(event){
+			this.parent[path] = $el.val();
+		}.bind(this));
+	}
+	
+	jdata.prototype.view.update = function() {
+		for (var path in this.$elements) {
+			this.parent.val(this.$elements[path], path);
+		}
+	}
+	
+	
 	return jdata;
-})();
+})(jQuery);
+
+
+$.fn.jdata = function(data, template) {
+	jdata.render(this, data, template);
+}
+
+jdata.extend = $.fn.jdata;
