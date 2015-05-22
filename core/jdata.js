@@ -29,7 +29,7 @@ var jdata = (function( $ ){
 	
 	jdata.prototype.set = function(template, data) {
 		this.clear();
-		this.src.setTemplate(template);
+		this.src.setTemplate(JSON.parse(JSON.stringify(template)));
 		this.src.setData(data);
 		this.apply();
 		return this;
@@ -112,14 +112,16 @@ var jdata = (function( $ ){
 	}
 	
 	function applyTemplate(template, data) {
+		console.log(template);
 		for (var t in template) {
+			console.log(t, typeof(template[t]));
 			if (typeof(template[t]) === "string") {
 				var regexp = template[t].match(/\{ ?[^\{\}]+ ?\}[.a-zA-Z()]*/g);
 				for (var r in regexp) {
 					template[t] = template[t].replace(regexp[r], transform(regexp[r], data));
 				}
 			} else if (typeof(template[t]) === "object") {
-				applyTemplate(template[t]);
+				applyTemplate(template[t], data);
 			}
 		}
 	}
@@ -191,8 +193,7 @@ var jdata = (function( $ ){
 	
 /********************************************************************************************/
 /*                                                                                          */
-/*                                      jdata - JQuery                                      */
-/*                                           1.0                                            */
+/*                                          jQuery                                          */
 /*                                                                                          */
 /********************************************************************************************/
 
@@ -241,7 +242,7 @@ var jdata = (function( $ ){
 		this.view.create(el, handle);
 	}
 	
-	jdata.prototype.view = function(){};
+	jdata.prototype.view = {};
 	
 	jdata.prototype.view.create = function(el, handle) {
 		this.$elements = {};
@@ -280,5 +281,3 @@ var jdata = (function( $ ){
 $.fn.jdata = function(data, template) {
 	jdata.render(this, data, template);
 }
-
-jdata.extend = $.fn.jdata;
