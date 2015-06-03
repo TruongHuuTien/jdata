@@ -112,16 +112,14 @@ var jdata = (function( $ ){
 	}
 	
 	function applyTemplate(template, data) {
-		console.log(template);
 		for (var t in template) {
-			console.log(t, typeof(template[t]));
 			if (typeof(template[t]) === "string") {
-				var regexp = template[t].match(/\{ ?[^\{\}]+ ?\}[.a-zA-Z()]*/g);
+				var regexp = template[t].match(/\{ ?[^\{\}]+ ?\}[.a-zA-Z0-9'(), ]*/g);
 				for (var r in regexp) {
 					template[t] = template[t].replace(regexp[r], transform(regexp[r], data));
 				}
 			} else if (typeof(template[t]) === "object") {
-				applyTemplate(template[t], data);
+				//applyTemplate(template[t], data);
 			}
 		}
 	}
@@ -155,10 +153,14 @@ var jdata = (function( $ ){
 	/* uppercase, John => JOHN */
 	function applyFormat(format, data) {
 		for (var i=0; i<format.length; i++) {
-			for (var j=0, f=JData.format; j<format[i].length; j++) {
+			/*
+for (var j=0, f=jdata.format; j<format[i].length; j++) {
 				f = f[format[i][j]];
 			}
 			if (f) data = f(data);
+*/
+			var f = jdata.format[format[i].fn];
+			data = f(data, format[i].params);
 		}
 		
 		return data;
@@ -166,7 +168,7 @@ var jdata = (function( $ ){
 	
 	/* {name}.uppercase() => {value: name, format: uppercase} */
 	function extract(data) {
-		var parsed = data.match(/^\{ ?(?:row.)?([a-zA-Z0-9\._]+) ?\}([.a-zA-Z()]*)$/);
+		var parsed = data.match(/^\{ ?(?:row.)?([a-zA-Z0-9\._]+) ?\}([.a-zA-Z0-9'(), ]*)$/);
 		var extracted = {};
 		if (parsed) {
 			if (parsed[2]) {
@@ -181,14 +183,43 @@ var jdata = (function( $ ){
 	
 	/* phone.post() => [phone, post] */
 	function extractFormat(formatRaw) {
-		var re = formatRaw.match(/[^()]*\(\)/g);
+		var re = formatRaw.match(/[^()]*\([.a-zA-Z0-9', ]*\)/g);
 		var formatArray = [];
 		for (var r in re) {
-			formatArray.push(re[r].match(/[a-zA-Z]+/g));
+			var r = re[r].match(/^\.([a-zA-Z]*)\(([.a-zA-Z0-9', ]*)\)$/);
+			var fn = r[1];
+			var paramString = r[2];
+			var params = paramString.match(/[\.a-zA-Z0-9]+/g);
+
+			formatArray.push({
+				fn : fn,
+				params: params
+			});
 		}
 		return formatArray;
 	}
 	
+/********************************************************************************************/
+/*                                                                                          */
+/*                                          Format                                          */
+/*                                                                                          */
+/********************************************************************************************/
+	jdata.format = {}
+	
+	/********************************/
+	/*            String            */
+	/********************************/
+	jdata.format.uppercase = function(str) {
+		return str.toUpperCase();
+	}
+	
+	jdata.format.lowercase = function(str) {
+		return str.toLowerCase();
+	}
+	
+	jdata.format.replace = function(str, params) {
+		return str.replace(params[0], params[1]);
+	}
 	
 	
 /********************************************************************************************/

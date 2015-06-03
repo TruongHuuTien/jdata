@@ -12,10 +12,9 @@
 		}
 		var template = {
 			firstname: "{ name.first }",
-			lastname: "{ name.last }"
+			lastname: "{ name.last }.replace(g, ...)"
 		}
 		var j = new jdata(template, data);
-		console.log(j);
 		$(document).ready(function(){
 			j.createView("#register-form");
 		});
