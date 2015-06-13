@@ -14,9 +14,9 @@
 			firstname: "{ name.first }",
 			lastname: "{ name.last }.replace(g, ...)"
 		}
-		var j = new jdata(template, data);
+		
 		$(document).ready(function(){
-			j.createView("#register-form");
+			$("#register-form").jdata.view(template, data);
 		});
 		
 	</script>

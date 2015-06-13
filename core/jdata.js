@@ -198,7 +198,10 @@ for (var j=0, f=jdata.format; j<format[i].length; j++) {
 		}
 		return formatArray;
 	}
-	
+
+
+
+
 /********************************************************************************************/
 /*                                                                                          */
 /*                                          Format                                          */
@@ -206,22 +209,24 @@ for (var j=0, f=jdata.format; j<format[i].length; j++) {
 /********************************************************************************************/
 	jdata.format = {}
 	
-	/********************************/
-	/*            String            */
-	/********************************/
-	jdata.format.uppercase = function(str) {
-		return str.toUpperCase();
+	/****************************************************************/
+	/*                            String                            */
+	/****************************************************************/
+	jdata.format.uppercase = function(value) {
+		return value.toUpperCase();
 	}
 	
-	jdata.format.lowercase = function(str) {
-		return str.toLowerCase();
+	jdata.format.lowercase = function(value) {
+		return value.toLowerCase();
 	}
 	
-	jdata.format.replace = function(str, params) {
-		return str.replace(params[0], params[1]);
+	jdata.format.replace = function(value, params) {
+		return value.replace(params[0], params[1]);
 	}
 	
-	
+
+
+
 /********************************************************************************************/
 /*                                                                                          */
 /*                                          jQuery                                          */
@@ -309,6 +314,9 @@ for (var j=0, f=jdata.format; j<format[i].length; j++) {
 })(jQuery);
 
 
-$.fn.jdata = function(data, template) {
-	jdata.render(this, data, template);
+$.fn.jdata = function() {}
+
+$.fn.jdata.view = function(template, data, handle) {
+	var jd = new jdata(template, data);
+	jd.createView(this, handle);
 }
