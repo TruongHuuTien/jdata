@@ -83,6 +83,7 @@
 						$.ajax({
 							url: 'http://api.github.com/search/repositories',
 							data: {q:$('#searchInput').val()},
+							jsonp: true,
 							success: function(data){
 								jdata.datatable('#datatable', data.items, template);
 								$('#datatable').find('tr').click(function(event) {
