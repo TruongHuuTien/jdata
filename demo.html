@@ -9,7 +9,7 @@
 	<script src="assets/js/app.js"></script>
 </head>
 <body>
-	
+
 <div id="top"></div>
 
 <nav id="header">
@@ -37,9 +37,9 @@
 		</div>
 	</div>
 </nav>
-	
+
 <div id="body-wrapper" class="container">
-	
+
 	<div id="body" class="col-xs-12 col-md-8">
 		<h1>Demonstration</h1>
 		<section>
@@ -68,25 +68,29 @@
 						}
 					}
 				};
-				
+
 				var viewerTemplate = {
 					name		: "{ name }",
 					avatar		: "<img src='{ owner.avatar_url }' style='max-width:100px;'/>",
 					description	: "{ description }",
 					homepage	: '<a href="{homepage}">{ homepage }</a>'
 				}
-				
+
 				$(document).ready(function() {
 					$("#viewer-box").hide();
 					$('#searchButton').click(function(){
 						$('#datatable').empty();
-						$.getJSON('http://api.github.com/search/repositories?q='+$('#searchInput').val(), function(data){
-							jdata.datatable('#datatable', data.items, template);
-							$('#datatable').find('tr').click(function(event) {
-								$('#list-box').hide();
-								$("#viewer-box").show();
-								$('#viewer').jdata($(event.currentTarget).attr('url'), viewerTemplate);
-							});
+						$.ajax({
+							url: 'http://api.github.com/search/repositories',
+							data: {q:$('#searchInput').val()},
+							success: function(data){
+								jdata.datatable('#datatable', data.items, template);
+								$('#datatable').find('tr').click(function(event) {
+									$('#list-box').hide();
+									$("#viewer-box").show();
+									$('#viewer').jdata($(event.currentTarget).attr('url'), viewerTemplate);
+								});
+							}
 						});
 					});
 					$('#backBtn').click(function(){
@@ -129,7 +133,7 @@
 			</div>
 		</section>
 	</div>
-	
+
 	<div id="menu-wrapper" class="hidden-xs hidden-sm col-md-4">
 		<div id="menu" data-spy="affix" data-offset-top="0" data-offset-bottom="0">
 			<a href="#github" class="menu-item">
@@ -143,7 +147,7 @@
 			</a>
 		</div>
 	</div>
-	
+
 </div>
 
 <div id="footer">
@@ -151,7 +155,7 @@
 		<div class="row">
 			<a href="" class="col-xs-6 col-sm-3">Francais</a>
 		</div>
-		
+
 	</div>
 </div>
 
